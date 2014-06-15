@@ -44,13 +44,13 @@ if settings.COINDAEMON_Reward == 'POW':
 
  
         tx_out = halfnode.CTxOut()
-	tx_out.nValue = value - charity_value
+        tx_out.nValue = value - charity_value
         tx_out.scriptPubKey = coinbaser.get_script_pubkey()
 
         if settings.COINDAEMON_SHA256_TX == 'yes':
             self.strTxComment = ""
         self.vin.append(tx_in)
-	self.vout.append(tx_out_charity)
+        self.vout.append(tx_out_charity)
         self.vout.append(tx_out)
         
         # Two parts of serialized coinbase, just put part1 + extranonce + part2 to have final serialized tx
@@ -103,14 +103,14 @@ elif settings.COINDAEMON_Reward == 'POS':
 
     
         tx_out = halfnode.CTxOut()
-        tx_out.nValue = value
+        tx_out.nValue = value - charity_value
         tx_out.scriptPubKey = coinbaser.get_script_pubkey()
        
         self.nTime = ntime 
         if settings.COINDAEMON_SHA256_TX == 'yes':
             self.strTxComment = ""
         self.vin.append(tx_in)
-	self.vout.append(tx_out_charity)
+        self.vout.append(tx_out_charity)
         self.vout.append(tx_out)
         
         # Two parts of serialized coinbase, just put part1 + extranonce + part2 to have final serialized tx
