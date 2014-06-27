@@ -50,8 +50,8 @@ if settings.COINDAEMON_Reward == 'POW':
         if settings.COINDAEMON_SHA256_TX == 'yes':
             self.strTxComment = ""
         self.vin.append(tx_in)
-        self.vout.append(tx_out_charity)
         self.vout.append(tx_out)
+        self.vout.append(tx_out_charity)
         
         # Two parts of serialized coinbase, just put part1 + extranonce + part2 to have final serialized tx
         self._serialized = super(CoinbaseTransaction, self).serialize().split(self.extranonce_placeholder)
@@ -110,8 +110,8 @@ elif settings.COINDAEMON_Reward == 'POS':
         if settings.COINDAEMON_SHA256_TX == 'yes':
             self.strTxComment = ""
         self.vin.append(tx_in)
-        self.vout.append(tx_out_charity)
         self.vout.append(tx_out)
+        self.vout.append(tx_out_charity)
         
         # Two parts of serialized coinbase, just put part1 + extranonce + part2 to have final serialized tx
         self._serialized = super(CoinbaseTransaction, self).serialize().split(self.extranonce_placeholder)
