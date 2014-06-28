@@ -1,3 +1,6 @@
 [submodule "externals/x15_hash"]
 	path = externals/x15_hash
 	url = https://github.com/Mezrin/x15_hash
+[submodule "externals/stratum"]
+	path = externals/stratum
+	url = https://github.com/Mezrin/stratum
