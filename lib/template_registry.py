@@ -157,6 +157,8 @@ class TemplateRegistry(object):
             diff1 = 0x000000ffff000000000000000000000000000000000000000000000000000000
         elif settings.COINDAEMON_ALGO == 'x13':
             diff1 = 0x0000ffff00000000000000000000000000000000000000000000000000000000
+        elif settings.COINDAEMON_ALGO == 'x15':
+            diff1 = 0x0000ffff00000000000000000000000000000000000000000000000000000000
         else:
             diff1 = 0x00000000ffff0000000000000000000000000000000000000000000000000000
 
@@ -273,7 +275,7 @@ class TemplateRegistry(object):
         share_diff = int(self.diff_to_target(hash_int))
 
         if settings.SOLUTION_BLOCK_HASH:
-            if settings.COINDAEMON_ALGO == 'quark' or 'x13':
+            if settings.COINDAEMON_ALGO == 'quark' or 'x13' or 'x15':
                 block_hash_hex = hash_bin[::-1].encode('hex_codec')
             else:
                 block_hash_bin = util.doublesha(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
