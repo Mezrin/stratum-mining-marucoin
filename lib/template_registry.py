@@ -11,6 +11,8 @@ elif settings.COINDAEMON_ALGO == 'quark':
         import quark_hash
 elif settings.COINDAEMON_ALGO == 'x13':
         import x13_hash
+elif settings.COINDAEMON_ALGO == 'x15':
+        import bitblock_hash
 else: pass
 from twisted.internet import defer
 from lib.exceptions import SubmitException
@@ -248,6 +250,8 @@ class TemplateRegistry(object):
             hash_bin = quark_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
         elif settings.COINDAEMON_ALGO == 'x13':
             hash_bin = x13_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
+        elif settings.COINDAEMON_ALGO == 'x15':
+            hash_bin = bitblock_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
         else:
             hash_bin = util.doublesha(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
 

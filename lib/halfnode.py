@@ -25,6 +25,9 @@ elif settings.COINDAEMON_ALGO == 'quark':
 elif settings.COINDAEMON_ALGO == 'x13':
         print("########################################### Loading X13 Module #########################################################")
         import x13_hash
+elif settings.COINDAEMON_ALGO == 'x15':
+        print("########################################### Loading x15 Support #########################################################")
+        import bitblock_hash
 else: 
 	print("########################################### NOT Loading LTC Scrypt Module ######################################################")
 	pass
@@ -243,6 +246,8 @@ class CBlock(object):
             self.quark = None
         elif settings.COINDAEMON_ALGO == 'x13':
             self.x13 = None
+        elif settings.COINDAEMON_ALGO == 'x15':
+            self.x15 = None
         else: pass
         if settings.COINDAEMON_Reward == 'POS':
             self.signature = b""
@@ -309,6 +314,18 @@ class CBlock(object):
                 r.append(struct.pack("<I", self.nNonce))
                 self.x13 = uint256_from_str(x13_hash.getPoWHash(''.join(r)))
              return self.x13
+    elif settings.COINDAEMON_ALGO == 'x15':
+         def calc_x15(self):
+             if self.x15 is None:
+                r = []
+                r.append(struct.pack("<i", self.nVersion))
+                r.append(ser_uint256(self.hashPrevBlock))
+                r.append(ser_uint256(self.hashMerkleRoot))
+                r.append(struct.pack("<I", self.nTime))
+                r.append(struct.pack("<I", self.nBits))
+                r.append(struct.pack("<I", self.nNonce))
+                self.x15 = uint256_from_str(bitblock_hash.getPoWHash(''.join(r)))
+             return self.x15
     else:
        def calc_sha256(self):
            if self.sha256 is None:
@@ -330,6 +347,8 @@ class CBlock(object):
             self.calc_quark()
         elif settings.COINDAEMON_ALGO == 'x13':
             self.calc_x13()
+        elif settings.COINDAEMON_ALGO == 'x15':
+            self.calc_x15()
         else:
             self.calc_sha256()
 
@@ -342,6 +361,9 @@ class CBlock(object):
                 return False
         elif settings.COINDAEMON_ALGO == 'x13':
             if self.x13 > target:
+                return False
+        elif settings.COINDAEMON_ALGO == 'x15':
+            if self.x15 > target:
                 return False
         else:
             if self.sha256 > target:
