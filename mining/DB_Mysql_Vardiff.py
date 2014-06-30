@@ -54,7 +54,7 @@ class DB_Mysql_Vardiff(DB_Mysql.DB_Mysql):
                     "lres": v[5], 
                     "reason": v[9],
                     "solution": v[2],
-                    "difficulty": v[3] 
+                    "difficulty": v[3]*256
                 }
             )
 
@@ -71,7 +71,7 @@ class DB_Mysql_Vardiff(DB_Mysql.DB_Mysql):
             """,
             {
                 "uname": username, 
-                "diff": diff
+                "diff": diff*256
             }
         )
         
