@@ -9,6 +9,8 @@ elif settings.COINDAEMON_ALGO  == 'scrypt-jane':
 	import yac_scrypt
 elif settings.COINDAEMON_ALGO == 'quark':
         import quark_hash
+elif settings.COINDAEMON_ALGO == 'nist5':
+        import nist5_hash
 elif settings.COINDAEMON_ALGO == 'x13':
         import x13_hash
 elif settings.COINDAEMON_ALGO == 'x15':
@@ -155,6 +157,8 @@ class TemplateRegistry(object):
             diff1 = 0x0000ffff00000000000000000000000000000000000000000000000000000000
         elif settings.COINDAEMON_ALGO == 'quark':
             diff1 = 0x000000ffff000000000000000000000000000000000000000000000000000000
+        elif settings.COINDAEMON_ALGO == 'nist5':
+            diff1 = 0x0000ffff00000000000000000000000000000000000000000000000000000000
         elif settings.COINDAEMON_ALGO == 'x13':
             diff1 = 0x0000ffff00000000000000000000000000000000000000000000000000000000
         elif settings.COINDAEMON_ALGO == 'x15':
@@ -250,6 +254,8 @@ class TemplateRegistry(object):
             hash_bin = yac_scrypt.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]), int(ntime, 16))        
         elif settings.COINDAEMON_ALGO == 'quark':
             hash_bin = quark_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
+        elif settings.COINDAEMON_ALGO == 'nist5':
+            hash_bin = nist5_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
         elif settings.COINDAEMON_ALGO == 'x13':
             hash_bin = x13_hash.getPoWHash(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))
         elif settings.COINDAEMON_ALGO == 'x15':
@@ -275,7 +281,7 @@ class TemplateRegistry(object):
         share_diff = int(self.diff_to_target(hash_int))
 
         if settings.SOLUTION_BLOCK_HASH:
-            if settings.COINDAEMON_ALGO == 'quark' or 'x13' or 'x15':
+            if settings.COINDAEMON_ALGO == 'quark' or 'nist5' or 'x13' or 'x15':
                 block_hash_hex = hash_bin[::-1].encode('hex_codec')
             else:
                 block_hash_bin = util.doublesha(''.join([ header_bin[i*4:i*4+4][::-1] for i in range(0, 20) ]))

@@ -22,6 +22,9 @@ if settings.COINDAEMON_ALGO == 'scrypt':
 elif settings.COINDAEMON_ALGO == 'quark':
         print("########################################### Loading Quark Module #########################################################")
         import quark_hash
+elif settings.COINDAEMON_ALGO == 'nist5':
+        print("########################################### Loading nist5 Module #########################################################")
+        import nist5_hash
 elif settings.COINDAEMON_ALGO == 'x13':
         print("########################################### Loading X13 Module #########################################################")
         import x13_hash
@@ -244,6 +247,8 @@ class CBlock(object):
             self.scrypt = None
         elif settings.COINDAEMON_ALGO == 'quark':
             self.quark = None
+        elif settings.COINDAEMON_ALGO == 'nist5':
+            self.nist5 = None
         elif settings.COINDAEMON_ALGO == 'x13':
             self.x13 = None
         elif settings.COINDAEMON_ALGO == 'x15':
@@ -302,6 +307,18 @@ class CBlock(object):
                 r.append(struct.pack("<I", self.nNonce))
                 self.quark = uint256_from_str(quark_hash.getPoWHash(''.join(r)))
              return self.quark
+    elif settings.COINDAEMON_ALGO == 'nist5':
+         def calc_nist5(self):
+             if self.nist5 is None:
+                r = []
+                r.append(struct.pack("<i", self.nVersion))
+                r.append(ser_uint256(self.hashPrevBlock))
+                r.append(ser_uint256(self.hashMerkleRoot))
+                r.append(struct.pack("<I", self.nTime))
+                r.append(struct.pack("<I", self.nBits))
+                r.append(struct.pack("<I", self.nNonce))
+                self.nist5 = uint256_from_str(nist5_hash.getPoWHash(''.join(r)))
+             return self.nist5
     elif settings.COINDAEMON_ALGO == 'x13':
          def calc_x13(self):
              if self.x13 is None:
@@ -345,6 +362,8 @@ class CBlock(object):
             self.calc_scrypt()
         elif settings.COINDAEMON_ALGO == 'quark':
             self.calc_quark()
+        elif settings.COINDAEMON_ALGO == 'nist5':
+            self.calc_nist5()
         elif settings.COINDAEMON_ALGO == 'x13':
             self.calc_x13()
         elif settings.COINDAEMON_ALGO == 'x15':
@@ -358,6 +377,9 @@ class CBlock(object):
                 return False
         elif settings.COINDAEMON_ALGO == 'quark':
             if self.quark > target:
+                return False
+        elif settings.COINDAEMON_ALGO == 'nist5':
+            if self.nist5 > target:
                 return False
         elif settings.COINDAEMON_ALGO == 'x13':
             if self.x13 > target:

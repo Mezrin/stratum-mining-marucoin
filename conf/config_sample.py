@@ -24,7 +24,7 @@ COINDAEMON_TRUSTED_PASSWORD = 'rpcpassword'
 # Until AutoReward Selecting Code has been implemented the below options are used to select the type of coin
 # For Reward type there is POW and POS. please ensure you choose the currect type.
 # For SHA256 PoS Coins which support TX Messages please enter yes in the TX selection
-COINDAEMON_ALGO = 'x13'            # The available options are: x13, x15
+COINDAEMON_ALGO = 'x13'            # The available options are: nist5, x13, x15
 COINDAEMON_Reward = 'POW'
 COINDAEMON_SHA256_TX = 'no'
 # ******************** BASIC SETTINGS ***************

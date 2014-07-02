@@ -4,3 +4,6 @@
 [submodule "externals/stratum"]
 	path = externals/stratum
 	url = https://github.com/Mezrin/stratum
+[submodule "externals/nist5_hash"]
+	path = externals/nist5_hash
+	url = https://github.com/Mezrin/nist5_hash
